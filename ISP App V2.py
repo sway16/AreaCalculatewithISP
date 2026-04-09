@@ -1,13 +1,19 @@
 from abc import ABC, abstractmethod
 
-# Abstract base class
-class Shape(ABC):
+
+class AreaShape(ABC):
     @abstractmethod
     def area(self):
         pass
 
 
-class Circle(Shape):
+class VolumeShape(ABC):
+    @abstractmethod
+    def volume(self):
+        pass
+
+
+class Circle(AreaShape):
     def __init__(self, radius):
         self.radius = radius
 
@@ -15,7 +21,7 @@ class Circle(Shape):
         return 3.14 * self.radius * self.radius
 
 
-class Square(Shape):
+class Square(AreaShape):
     def __init__(self, side):
         self.side = side
 
@@ -23,24 +29,48 @@ class Square(Shape):
         return self.side * self.side
 
 
-class Rectangle(Shape):
-    def __init__(self, length, width):
-        self.length = length
-        self.width = width
+class Cube(AreaShape, VolumeShape):
+    def __init__(self, side):
+        self.side = side
 
     def area(self):
-        return self.length * self.width
+        return 6 * self.side * self.side
+
+    def volume(self):
+        return self.side ** 3
 
 
-# Calculator works with any shape
 class AreaCalculator:
-    def calculate(self, shape: Shape):
+    def calculate(self, shape: AreaShape):
         return shape.area()
 
-
-# Usage
 calc = AreaCalculator()
 
-print(calc.calculate(Circle(5)))
-print(calc.calculate(Square(4)))
-print(calc.calculate(Rectangle(4, 6)))
+print("Circle Area:", calc.calculate(Circle(5)))
+print("Square Area:", calc.calculate(Square(4)))
+print("Cube Area:", calc.calculate(Cube(3)))
+
+
+cube = Cube(3)
+print("Cube Volume:", cube.volume())
+
+
+
+
+
+
+
+
+'''class Cylinder(AreaShape, VolumeShape):
+    def __init__(self, radius, height):
+        self.radius = radius
+        self.height = height
+
+    def area(self):
+        return 2 * 3.14 * self.radius * (self.height + self.radius)
+
+    def volume(self):
+        return 3.14 * self.radius**2 * self.height'''
+
+'''print("Cylinder Area:", Cylinder(3,5).area())
+print("Cylinder Volume:", Cylinder(3,5).volume())'''
